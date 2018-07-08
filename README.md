@@ -67,5 +67,8 @@
     ```
 * 股票估值：http://echarts.baidu.com/examples/editor.html?c=line-stack
 
+* 自选股：
+   * api：api：http://118.25.108.103:8080/deepview/user/myStocks?userID=1
+
 ### 环境配置
 * jqdatasdk安装：https://www.joinquant.com/post/12479
