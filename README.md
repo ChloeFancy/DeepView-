@@ -72,7 +72,7 @@
 
 * 市场情绪：
    * echarts：http://echarts.baidu.com/examples/editor.html?c=candlestick-sh-2015
-   * api：http://118.25.108.103:8080/deepview/chart/monthNum=30
+   * api：http://118.25.108.103:8080/deepview/chart/marketEmotion?monthNum=30
    * 返回数据：  
    {  
       chartData1[['date（日期）'，'close（收盘价）', 'ma20（二十天均值）'],...]，  
