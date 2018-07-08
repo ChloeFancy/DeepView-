@@ -73,11 +73,11 @@
 * 市场情绪：
    * echarts：http://echarts.baidu.com/examples/editor.html?c=candlestick-sh-2015
    * api：http://118.25.108.103:8080/deepview/chart/monthNum=30
-   * 返回数据：
-   {
-      chartData1[['date（日期）'，'close（收盘价）', 'ma20（二十天均值）'],...]，
-      chartData2[['date（日期）'，'zscore（市场情绪值）', 'upper（上界）', 'lower（下界）'],...]
-   }
+   * 返回数据：  
+   {  
+      chartData1[['date（日期）'，'close（收盘价）', 'ma20（二十天均值）'],...]，  
+      chartData2[['date（日期）'，'zscore（市场情绪值）', 'upper（上界）', 'lower（下界）'],...]  
+   }  
 
 ### 环境配置
 * jqdatasdk安装：https://www.joinquant.com/post/12479
