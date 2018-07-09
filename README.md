@@ -2,7 +2,7 @@
 
 * 实时股价：
     * echarts：http://echarts.baidu.com/examples/editor.html?c=candlestick-sh-2015  
-    * api：http://118.25.108.103:8080/deepview/chart/realTimePrice?secuCode=000001.XSH
+    * api：http://118.25.108.103:8080/deepview/chart/realTimePrice?secuCode=000001.XSHE
     * 返回数据：{证券名，绘制数据[[日期，开盘价，收盘价，最低价，最高价]，...]}
     
 * 股价异动：
