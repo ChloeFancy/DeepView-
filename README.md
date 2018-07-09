@@ -88,14 +88,18 @@
    ```
 
 * 证券表行业表更新：
-   * api：http://118.25.108.103:8080/deepview/security/updateDB （post：name: admin, password: admin）
+   * api：http://118.25.108.103:8080/deepview/security/updateDB （post：name=admin, password=admin）
+   
+* 模糊搜索：
+   * api：http://118.25.108.103:8080/deepview/security/dimSearchByCode?code=
+   * api：http://118.25.108.103:8080/deepview/security/dimSearchByName?name=
 
 * 普通用户登录：
-   * api：http://118.25.108.103:8080/deepview/user/login （post：name: 1, password: 1）
+   * api：http://118.25.108.103:8080/deepview/user/login （post：name=admin, password=admin）
    * 返回数据：id
 
 * 管理员登录：
-   * api：http://118.25.108.103:8080/deepview/admin/login （post：name: admin, password: admin）
+   * api：http://118.25.108.103:8080/deepview/admin/login （post：name=admin, password=admin）
    * 返回数据：id
    
 ### 环境配置
