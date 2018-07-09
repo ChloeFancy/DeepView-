@@ -88,7 +88,7 @@
    ```
 
 * 证券表行业表更新：
-   * api：http://118.25.108.103:8080/deepview/security/update （post：name: admin, password: admin）
+   * api：http://118.25.108.103:8080/deepview/security/updateDB （post：name: admin, password: admin）
 
 * 普通用户登录：
    * api：http://118.25.108.103:8080/deepview/user/login （post：name: 1, password: 1）
