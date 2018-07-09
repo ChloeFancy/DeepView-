@@ -19,8 +19,6 @@
     # 买卖方向  排名  营业部名称  买入金额  买入金额占比  卖出金额  卖出金额占比  买卖净额
     ```
 
-* 走势预测：http://echarts.baidu.com/examples/editor.html?c=candlestick-sh-2015
-
 * 相关性分析(n支股票相关性)：
     * echarts：http://echarts.baidu.com/examples/editor.html?c=heatmap-cartesian
     * api：http://118.25.108.103:8080/deepview/chart/correlation?secuCode=000001.XSHG&secuCode=000002.XSHE&secuCode=000004.XSHG&secuCode=000005.XSHE&startDate=2017-1-1&endDate=2018-1-1
