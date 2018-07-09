@@ -65,7 +65,15 @@
     print(weekday_stat)
     # 周1-周5每天的涨、跌、平均收益，二维数组，和month_stat类似
     ```
-* 股票估值：http://echarts.baidu.com/examples/editor.html?c=line-stack
+* 股票估值：
+   * echarts：http://echarts.baidu.com/examples/editor.html?c=line-stack
+   * api：http://118.25.108.103:8080/deepview/chart/estimate?secuCode=601238.XSHG
+   * 返回数据：
+   ```
+   {
+      chartData[[日期,行业平均市盈率,个股市盈率],...]
+   }
+   ```
 
 * 自选股：
    * api：http://118.25.108.103:8080/deepview/user/myStocks?userID=1
@@ -74,10 +82,23 @@
    * echarts：http://echarts.baidu.com/examples/editor.html?c=candlestick-sh-2015
    * api：http://118.25.108.103:8080/deepview/chart/marketEmotion?monthNum=30
    * 返回数据：  
+   ```
    {  
       chartData1[['date（日期）'，'close（收盘价）', 'ma20（二十天均值）'],...]，  
       chartData2[['date（日期）'，'zscore（市场情绪值）', 'upper（上界）', 'lower（下界）'],...]  
    }  
+   ```
 
+* 证券表行业表更新：
+   * api：http://118.25.108.103:8080/deepview/security/update （post：name,password）
+
+* 普通用户登录：
+   * api：http://118.25.108.103:8080/deepview/user/login （post：name,password）
+   * 返回数据：id
+
+* 管理员登录：
+   * api：http://118.25.108.103:8080/deepview/admin/login （post：name,password）
+   * 返回数据：id
+   
 ### 环境配置
 * jqdatasdk安装：https://www.joinquant.com/post/12479
