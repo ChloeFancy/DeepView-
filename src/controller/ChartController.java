@@ -1,19 +1,25 @@
 package controller;
 
+import DAO.Impl.SecurityDAOImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import util.BasicResponse;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/chart")
 @CrossOrigin(origins="*")
-public class ChartController{
+public class ChartController extends BaseController{
+
+    ApplicationContext context =
+            new ClassPathXmlApplicationContext("../applicationContext.xml");
+    //此路径是在生成的class文件（out/artifacts/DeepView_war_exploded/WEB-INF/classes/controller/BaseController.class）中的相对路径
+    SecurityDAOImpl securityDAO = (SecurityDAOImpl) context.getBean("securityDAOImpl");
 
     @RequestMapping(value="/realTimePrice",method={RequestMethod.GET})
     public @ResponseBody
@@ -69,7 +75,7 @@ public class ChartController{
             System.arraycopy(secuCode.toArray(new String[secuCode.size()]),0,argv,2,secuCode.size());
             ArrayList<String> result=RunPython("correlation.py",argv);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("secuNames",result.get(0));
+            jsonObject.put("secuNames", JSONArray.parseArray(result.get(0)));
             jsonObject.put("chartData", JSONArray.parseArray(result.get(1)));
             response.setData(jsonObject);
         }catch (Exception e){
@@ -191,34 +197,45 @@ public class ChartController{
         return response;
     }
 
-    public ArrayList<String> RunPython(String fileName, String [] argv ) throws Exception {
-        String path=getClass().getResource("").getPath();
-        System.out.println(path);
+    @RequestMapping(value="/estimate",method={RequestMethod.GET})
+    public @ResponseBody
+    BasicResponse estimate(@RequestParam String secuCode, HttpServletRequest request){
+        BasicResponse response = new BasicResponse();
+        response.setResCode("1");
+        response.setResMsg("success");
+        try {
+            String indCode = securityDAO.getIndustry(secuCode);
+            ArrayList<String> result = RunPython("estimate.py", new String[]{secuCode,indCode});
+            System.out.println(result.size());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("chartData",JSONArray.parseArray( result.get(0)));
+            response.setData(jsonObject);
+        }catch (Exception e){
+            response.setResCode("-1");
+            response.setResMsg("error");
+            e.printStackTrace();
+        }
+        return response;
+    }
 
-        path=path.substring(0,path.length()-11)+ "python/" + fileName;
-        System.out.println(path);
-        String[] runpy= new String[2+argv.length];
-        runpy[0] = "python";
-        runpy[1] = path;
-        System.arraycopy(argv, 0, runpy, 2, argv.length);
-        for (int i = 0; i < runpy.length; i++) {
-            System.out.println(runpy[i]);
+    @RequestMapping(value="/marketEmotion",method={RequestMethod.GET})
+    public @ResponseBody
+    BasicResponse marketEmotion(@RequestParam String monthNum, HttpServletRequest request){
+        BasicResponse response = new BasicResponse();
+        response.setResCode("1");
+        response.setResMsg("success");
+        try {
+            ArrayList<String> result = RunPython("marketEmotion.py", new String[]{monthNum});
+            System.out.println(result.size());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("chartData1",JSONArray.parseArray( result.get(0)));
+            jsonObject.put("chartData2",JSONArray.parseArray( result.get(1)));
+            response.setData(jsonObject);
+        }catch (Exception e){
+            response.setResCode("-1");
+            response.setResMsg("error");
+            e.printStackTrace();
         }
-        Process pr=Runtime.getRuntime().exec(runpy);
-        BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-        ArrayList<String> result = new ArrayList<>();
-        String line;
-        boolean flag=true;//去除返回值第一行的auth success
-        while ((line = in.readLine()) != null) {
-            if(!flag){
-                System.out.println(line);
-                line=line.replaceAll("\'","\"");
-                result.add(line);
-            }
-            flag=false;
-        }
-        in.close();
-        pr.waitFor();
-        return result;
+        return response;
     }
 }

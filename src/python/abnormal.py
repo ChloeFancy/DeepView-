@@ -15,11 +15,15 @@ del billboard_df['id']; del billboard_df['code']; del billboard_df['total_value'
 #print(billboard_df)
 stat_list = []
 value_list = []
-for date, value_df in billboard_df.groupby('day'):
-    stat_list.append([date, value_df.abnormal_name.values[0],  value_df.amount.values[0]])
+group_list = sorted(list(billboard_df.groupby('day')), key=lambda x:x[0], reverse=True)
+for date, value_df in group_list:
+    stat_list.append([date, value_df.abnormal_name.values[0], value_df.amount.values[0]])
     del value_df['abnormal_name']; del value_df['day']; del value_df['amount']
-    value_df.sort_values(by=['direction', 'rank'], inplace=True)
-value_list.append(value_df.values.tolist())
+    trans_df = value_df.T
+    trans_df[trans_df.isnull()] = '-'
+    value_df = trans_df.T
+    value_df.sort_index(by=['direction', 'rank'], inplace=True)
+    value_list.append(value_df.values.tolist())
 
 print(name)
 print(stat_list)

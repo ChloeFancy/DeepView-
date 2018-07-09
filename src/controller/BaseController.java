@@ -13,9 +13,12 @@ import util.BasicResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 @Controller
 @CrossOrigin(origins="*")
@@ -211,12 +214,40 @@ public abstract class BaseController<T> {
         }
         return response;
     }
-    @RequestMapping(value="/test",method = {RequestMethod.GET})
-    public @ResponseBody
-    BasicResponse test(T t){
-        BasicResponse response = new BasicResponse();
-        response.setData(t);
-        return response;
+    public ArrayList<String> RunPython(String fileName, String [] argv ) throws Exception {
+        String path=getClass().getResource("").getPath();
+        System.out.println(path);
+
+        path=path.substring(0,path.length()-11)+ "python/" + fileName;
+        System.out.println(path);
+        String[] runpy= new String[2+argv.length];
+        runpy[0] = "python";
+        runpy[1] = path;
+        System.arraycopy(argv, 0, runpy, 2, argv.length);
+        for (int i = 0; i < runpy.length; i++) {
+            System.out.println(runpy[i]);
+        }
+        Process pr=Runtime.getRuntime().exec(runpy);
+        BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        ArrayList<String> result = new ArrayList<>();
+        String line;
+        boolean flag=true;//去除返回值第一行的auth success
+        while ((line = in.readLine()) != null) {
+            if(!flag){
+                System.out.println(line);
+//                String a = String.valueOf(34);
+                line=line.replaceAll("'","\"");
+                System.out.println(line);
+
+//                line=line.replaceAll("\\\\","");
+                result.add(line);
+            }
+            flag=false;
+        }
+        in.close();
+        pr.waitFor();
+        return result;
     }
+
 
 }

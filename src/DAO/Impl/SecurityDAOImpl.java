@@ -1,8 +1,10 @@
 package DAO.Impl;
 
 import DAO.SecurityDAO;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import model.SecurityEntity;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -62,5 +64,49 @@ public class SecurityDAOImpl implements SecurityDAO {
         }
         return result;
     }
+
+    public String getIndustry(String secuCode) {
+        Session s = sessionFactory.openSession();
+        Transaction tx = s.beginTransaction();
+        String hql = "select ind.indCode from SecurityEntity se, IndustryEntity ind where se.indId=ind.id and se.secuCode = '"+secuCode+"'";
+        System.out.println(hql);
+        Query query = s.createQuery(hql);
+        List list = query.list();
+        tx.commit();
+
+        Iterator iterator = list.iterator();
+        List<String> result = new ArrayList<>();
+        while(iterator.hasNext()){
+            result.add((String) iterator.next());
+        }
+        return result.get(0);
+    }
+
+    public void update(List<SecurityEntity> list) {
+        delete();
+        Session s = sessionFactory.openSession();
+        Transaction tx = s.beginTransaction();
+        SecurityEntity securityEntity=null;
+        for (int i = 0; i < list.size(); i++) {
+            securityEntity = list.get(i);
+            s.save(securityEntity);
+            if (i%10==0){
+                s.flush();
+                s.clear();
+            }
+        }
+        tx.commit();
+    }
+
+    public void delete() {
+        Session s = sessionFactory.openSession();
+        Transaction tx = s.beginTransaction();
+        String sql = "truncate table deepView.Security";
+        System.out.println(sql);
+        s.createSQLQuery(sql).executeUpdate();
+        tx.commit();
+
+    }
+
 
 }

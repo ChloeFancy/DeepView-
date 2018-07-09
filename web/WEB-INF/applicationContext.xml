@@ -48,6 +48,7 @@
                 <value>model.MyStocksEntity</value>
                 <value>model.SecurityEntity</value>
                 <value>model.UserEntity</value>
+                <value>model.TestEntity</value>
             </list>
         </property>
 
@@ -72,17 +73,42 @@
         </property>
     </bean>
 
-    <bean id="UserEntityDAOImpl" class="DAO.Impl.UserEntityDAOImpl">
+    <bean id="userEntityDAOImpl" class="DAO.Impl.UserEntityDAOImpl">
         <property name="sessionFactory" ref="sessionFactory">
 
         </property>
     </bean>
 
-    <bean id="SecurityDAOImpl" class="DAO.Impl.SecurityDAOImpl">
+    <bean id="adminDAOImpl" class="DAO.Impl.AdminDAOImpl">
         <property name="sessionFactory" ref="sessionFactory">
 
         </property>
     </bean>
+
+    <bean id="securityDAOImpl" class="DAO.Impl.SecurityDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory">
+
+        </property>
+    </bean>
+
+    <bean id="industryDAOImpl" class="DAO.Impl.IndustryDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory">
+
+        </property>
+    </bean>
+
+    <bean id="myStocksDAOImpl" class="DAO.Impl.MyStocksDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory">
+
+        </property>
+    </bean>
+
+    <bean id="testDAOImpl" class="DAO.Impl.TestDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory">
+
+        </property>
+    </bean>
+
 
 
     <mvc:interceptors>

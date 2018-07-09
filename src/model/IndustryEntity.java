@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -9,6 +10,7 @@ public class IndustryEntity {
     private int id;
     private String indCode;
     private String indName;
+    private Date startDate;
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -40,6 +42,16 @@ public class IndustryEntity {
         this.indName = indName;
     }
 
+    @Basic
+    @Column(name = "StartDate", nullable = true)
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,12 +59,13 @@ public class IndustryEntity {
         IndustryEntity that = (IndustryEntity) o;
         return id == that.id &&
                 Objects.equals(indCode, that.indCode) &&
-                Objects.equals(indName, that.indName);
+                Objects.equals(indName, that.indName) &&
+                Objects.equals(startDate, that.startDate);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, indCode, indName);
+        return Objects.hash(id, indCode, indName, startDate);
     }
 }
